@@ -1,0 +1,174 @@
+\makeatletter
+
+% packages
+\usepackage[top=1.25cm, left=3cm, right=1cm, bottom=1cm, nohead, nofoot]{geometry}
+\RequirePackage{fontspec}
+\RequirePackage[normalem]{ulem}
+\RequirePackage{array}
+\RequirePackage{multirow}
+
+% fonts
+\fontsize{10pt}{12pt}\selectfont
+\setmainfont{Liberation Sans Narrow}
+\newfontfamily\cyrillicfont[Mapping=tex-text]{Liberation Sans Narrow}
+
+% tabular
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
+
+% macros
+\def\bful#1{\textbf{\uline{#1}}}
+\def\cellwidth#1{\dimexpr #1 - 2\tabcolsep - \arrayrulewidth\relax}
+
+% templates
+\def\TplDevEn{Software Development}
+\def\TplDevUa{Розробка програмного забезпечення}
+\def\TplUSDEn{USD}
+\def\TplUSDUa{Долар США}
+\def\TplFullPostpaymentEn{Postpayment of 100\% upon the services delivery. The services being rendered at the location of the Customer.}
+\def\TplFullPostpaymentUa{100\% післяплата за фактом виконання послуг. Послуги надаються за місцем реєстрації Замовника.}
+
+% layout
+\pagestyle{empty}
+
+% commands
+\def\PrintInvoice{
+  \newpage
+
+  \begin{center}
+    \textbf{Invoice (offer) / Інвойс (оферта)}\quad № \InvoiceNo
+  \end{center}
+
+  \noindent%
+  \begin{tabular}{|L{\cellwidth{.48\textwidth}}|L{\cellwidth{.52\textwidth}}|}
+    \hline
+
+    \textbf{Date%
+      \ifdefined\PlaceEn{ and Place}\else{ of invoice}\fi%
+    :} \Date%
+      \ifdefined\PlaceEn{, \PlaceEn}\else\fi &
+    \textbf{Дата%
+      \ifdefined\PlaceUa{ та місце}\else{ інвойсу}\fi%
+    :} \Date%
+      \ifdefined\PlaceUa{, \PlaceUa}\else\fi \\ \hline
+
+    \textbf{Supplier:} Individual Entrepreneur \FullNameEn \newline
+    address: \Zip,
+      \ifdefined\StateEn{\StateEn, }\else\fi%
+      \ifdefined\RegionEn{\RegionEn, }\else\fi%
+    \CityEn, \StreetEn, \BuildingEn%
+      \ifdefined\ApartmentEn, \ApartmentEn\else\fi%
+    \newline
+    Individual Tax Number --- \ITN &
+    \textbf{Виконавець:} ФО---П \FullNameUa,
+    що проживає за адресою: \Zip,
+      \ifdefined\StateUa{\StateUa, }\else\fi%
+      \ifdefined\RegionUa{\RegionUa, }\else\fi%
+    \CityUa, \StreetUa, \BuildingUa%
+      \ifdefined\ApartmentUa, \ApartmentUa\else\fi \newline
+    ІПН --- \ITN \\ \hline
+
+    \textbf{Customer:} \CustomerName \newline
+    \CustomerAddress \newline
+    Represented by \CustomerRepresentative, who acts according to the charter &
+    \textbf{Замовник:} \CustomerName \newline
+    \CustomerAddress \newline
+    в особі \CustomerRepresentative, що діє на підставі Статуту \\ \hline
+
+    \textbf{Subject matter:} \MatterEn &
+    \textbf{Предмет:} \MatterUa \\ \hline
+
+    \textbf{Currency:} \CurrencyEn &
+    \textbf{Валюта:} \CurrencyUa \\ \hline
+
+    \textbf{Price (amount) of the goods/services:} \Price &
+    \textbf{Ціна (загальна вартість) товарів/послуг:} \Price \\ \hline
+
+    \textbf{Terms of payments and acceptation:}\newline \TermsEn &
+    \textbf{Умови оплати та передачі:}\newline \TermsUa \\ \hline
+
+    \textbf{Customer Bank information:} \newline[2pt]
+    \begin{tabular}{@{}L{2.5cm}L{5cm}}
+      Beneficiary: & \CustomerBeneficiary \\
+      Account \# : & \bful{\CustomerAccount} \\
+      Beneficiary’s bank: & \CustomerBank \newline \CustomerBankAddress \\
+      SWIFT code: & \CustomerSWIFT \\
+    \end{tabular} &
+    \textbf{Supplier Bank information:} \newline[2pt]
+    \begin{tabular}{@{}L{2.5cm}L{5cm}}
+      Beneficiary: & PE\quad\FullNameEn \\
+      Account \# : & \bful{\SupplierAccount} \\
+      Beneficiary’s bank: & \SupplierBank \newline \SupplierBankAddress \\
+      SWIFT code: & \SupplierSWIFT \\
+    \end{tabular} \newline
+    \bful{Correspondent bank \#1:} \newline
+    \CorrespondentBank \newline
+    \CorrespondentBankAddress \newline
+    Account No.: \CorrespondentAccount \newline
+    SWIFT code: \CorrespondentSWIFT \\ \hline
+  \end{tabular}
+
+  \smallskip
+
+  \noindent%
+  \begin{tabular}{%
+    |L{\cellwidth{.04\textwidth}}%
+    |L{\cellwidth{.34\textwidth}}%
+    |L{\cellwidth{.20\textwidth}}%
+    |L{\cellwidth{.24\textwidth}}%
+    |L{\cellwidth{.18\textwidth}}%
+  |}
+    \hline
+    № &
+    Description/\newline Опис &
+    Quantity/\newline Кількість &
+    Price, \CurrencyEn\newline Ціна, \CurrencyUa &
+    Amount, \CurrencyEn\ /\newline Загальна вартість, \CurrencyUa \\ \hline
+
+    1 &
+    \ServiceDescriptionEn/\ServiceDescriptionUa &
+    1 &
+    \Price &
+    \Price \\ \hline
+
+    & & &
+    Total/Усього: &
+    \Price \\ \hline
+
+    \multicolumn{4}{|l|}{%
+      \noindent%
+      \begin{tabular}{L{3cm}L{10cm}}
+        Total to pay/\newline Усього до сплати: &
+        \PriceWordEn \newline \PriceWordUa \\
+      \end{tabular}%
+    } &
+    \Price \\ \hline
+  \end{tabular}
+
+  \setlength{\parskip}{.5\baselineskip}
+
+  All charges of correspondent banks are at the Supplier’s expenses. / Усі комісії банків-кореспондентів сплачує виконавець.
+
+  This Invoice is an offer to enter into the agreement. Payment according hereto shall be deemed as an acceptation of the offer to enter into the agreement on the terms and conditions set out herein. Payment according hereto may be made not later than \Deadline. / Цей Інвойс є пропозицією укласти договір. Оплата за цим Інвойсом є прийняттям пропозиції укласти договір на умовах, викладених в цьому Інвойсі. Оплата за цим інвойсом може бути здійснена не пізніше \Deadline.
+
+  Please note, that payment according hereto at the same time is the evidence of the work performance and the service delivery in full scope, acceptation thereof and the confirmation of final mutual installments between Parties. / Оплата згідно цього Інвойсу одночасно є свідченням виконання робіт та надання послуг в повному обсязі, їх прийняття, а також підтвердженням кінцевих розрахунків між Сторонами.
+
+  Payment according hereto shall be also the confirmation that Parties have no claims to each other and have no intention to submit any claims. The agreement shall not include penalty and fine clauses. / Оплата згідно цього Інвойсу є підтвердженням того, що Сторони не мають взаємних претензій та не мають наміру направляти рекламації. Договір не передбачає штрафних санкцій.
+
+  The Parties shall not be liable for non-performance or improper performance of the obligations under the agreement during the term of insuperable force circumstances. / Сторони звільняються від відповідальності за невиконання чи неналежне виконання зобов’язань за договором на час дії форс-мажорних обставин.
+
+  Any disputes arising out of the agreement between the Parties shall be settled by the competent court at the location of a defendant. / Всі спори, що виникнуть між Сторонами по договору будуть розглядатись компетентним судом за місцезнаходження відповідача.
+
+  Supplier/Виконавець: \hspace{1cm} \rule{4cm}{.3pt} \hspace{1cm} (\ShortNameEn\ / \ShortNameUa)
+}
+
+% defaults
+\def\MatterEn{\TplDevEn}
+\def\MatterUa{\TplDevUa}
+\def\TermsEn{\TplFullPostpaymentEn}
+\def\TermsUa{\TplFullPostpaymentUa}
+\def\CurrencyEn{\TplUSDEn}
+\def\CurrencyUa{\TplUSDUa}
+\def\ServiceDescriptionEn{\TplDevEn}
+\def\ServiceDescriptionUa{\TplDevUa}
+
+\makeatother
