@@ -35,7 +35,7 @@
   \newpage
 
   \begin{center}
-    \textbf{Invoice (offer) / Інвойс (оферта)}\quad № \InvoiceNo
+    \textbf{Invoice\ifdefined\AgreementNameEn\else\ (offer)\fi\ / Інвойс\ifdefined\AgreementNameEn\else\ (оферта)\fi}\quad № \InvoiceNo
   \end{center}
 
   \noindent%
@@ -148,11 +148,15 @@
 
   All charges of correspondent banks are at the Supplier’s expenses. / Усі комісії банків-кореспондентів сплачує виконавець.
 
-  This Invoice is an offer to enter into the agreement. Payment according hereto shall be deemed as an acceptation of the offer to enter into the agreement on the terms and conditions set out herein. Payment according hereto may be made not later than \Deadline. / Цей Інвойс є пропозицією укласти договір. Оплата за цим Інвойсом є прийняттям пропозиції укласти договір на умовах, викладених в цьому Інвойсі. Оплата за цим інвойсом може бути здійснена не пізніше \Deadline.
+  \ifdefined\AgreementNameEn
+    Hereby the Supplier confirms that it has entered into the agreement with the Customer by acceptation of \AgreementNameEn\ifdefined\AgreementDateEn{ dated \AgreementDateEn}\else\fi\ifdefined\AgreementLink{ (\AgreementLink)}\else\fi\ (hereinafter the ``\ifdefined\IsPublicOffer{Public Offer}\else{Agreement}\fi'') / Цим Виконавець підтверджує, що він уклав угоду із Замовником шляхом прийняття \ifdefined\AgreementNameUa{\AgreementNameUa}\else{\AgreementNameEn}\fi\ifdefined\AgreementDateUa{ від \AgreementDateUa}\else\fi\ifdefined\AgreementLink{ (\AgreementLink)}\else\fi\ (далі --- ``\ifdefined\IsPublicOffer{Публічна оферта}\else{Договір}\fi'').
+  \else
+    This Invoice is an offer to enter into the agreement. Payment according hereto shall be deemed as an acceptation of the offer to enter into the agreement on the terms and conditions set out herein. Payment according hereto may be made not later than \Deadline. / Цей Інвойс є пропозицією укласти договір. Оплата за цим Інвойсом є прийняттям пропозиції укласти договір на умовах, викладених в цьому Інвойсі. Оплата за цим інвойсом може бути здійснена не пізніше \Deadline.
+  \fi
 
-  Please note, that payment according hereto at the same time is the evidence of the work performance and the service delivery in full scope, acceptation thereof and the confirmation of final mutual installments between Parties. / Оплата згідно цього Інвойсу одночасно є свідченням виконання робіт та надання послуг в повному обсязі, їх прийняття, а також підтвердженням кінцевих розрахунків між Сторонами.
+  \ifdefined\AgreementNameEn{In accordance with the \ifdefined\IsPublicOffer{Public Offer}\else{Agreement}\fi, payment hereof}\else{Please note, that payment according hereto}\fi\ at the same time is the evidence of the work performance and the service delivery in full scope, acceptation thereof and the confirmation of final mutual installments between Parties. / \ifdefined\AgreementNameEn{Відповідно до \ifdefined\IsPublicOffer{Публічної оферти}\else{Договору}\fi, оплата}\else{Оплата}\fi\ згідно цього Інвойсу одночасно є свідченням виконання робіт та надання послуг в повному обсязі, їх прийняття, а також підтвердженням кінцевих розрахунків між Сторонами.
 
-  Payment according hereto shall be also the confirmation that Parties have no claims to each other and have no intention to submit any claims. The agreement shall not include penalty and fine clauses. / Оплата згідно цього Інвойсу є підтвердженням того, що Сторони не мають взаємних претензій та не мають наміру направляти рекламації. Договір не передбачає штрафних санкцій.
+  Payment according hereto shall be also the confirmation that Parties have no claims to each other and have no intention to submit any claims.\ifdefined\AgreementNameEn{}\else{ The agreement shall not include penalty and fine clauses.}\fi\ / Оплата згідно цього Інвойсу є підтвердженням того, що Сторони не мають взаємних претензій та не мають наміру направляти рекламації.\ifdefined\AgreementNameEn{}\else{ Договір не передбачає штрафних санкцій.}\fi
 
   The Parties shall not be liable for non-performance or improper performance of the obligations under the agreement during the term of insuperable force circumstances. / Сторони звільняються від відповідальності за невиконання чи неналежне виконання зобов’язань за договором на час дії форс-мажорних обставин.
 
