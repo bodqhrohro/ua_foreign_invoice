@@ -1,0 +1,178 @@
+\makeatletter
+
+% packages
+\usepackage[top=1.25cm, left=3cm, right=1cm, bottom=1cm, nohead, nofoot]{geometry}
+\RequirePackage{fontspec}
+\RequirePackage[normalem]{ulem}
+\RequirePackage{array}
+\RequirePackage{multirow}
+
+% fonts
+\fontsize{10pt}{12pt}\selectfont
+\setmainfont{Liberation Sans Narrow}
+\newfontfamily\cyrillicfont[Mapping=tex-text]{Liberation Sans Narrow}
+
+% tabular
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
+
+% macros
+\def\bful#1{\textbf{\uline{#1}}}
+\def\cellwidth#1{\dimexpr #1 - 2\tabcolsep - \arrayrulewidth\relax}
+
+% templates
+\def\TplDevRu{Разработка программного обеспечения}
+\def\TplDevUa{Розробка програмного забезпечення}
+\def\TplUSDRu{Доллар США}
+\def\TplUSDUa{Долар США}
+\def\TplFullPostpaymentRu{100\% постоплата по факту выполнения услуг. Услуги предоставляются по месту регистрации Заказчика.}
+\def\TplFullPostpaymentUa{100\% післяплата за фактом виконання послуг. Послуги надаються за місцем реєстрації Замовника.}
+
+% layout
+\pagestyle{empty}
+
+% commands
+\def\PrintInvoice{
+  \newpage
+
+  \begin{center}
+    \textbf{Инвойс\ifdefined\AgreementNameRuInstrumental\else\ (оферта)\fi\ / Інвойс\ifdefined\AgreementNameRuInstrumental\else\ (оферта)\fi}\quad № \InvoiceNo
+  \end{center}
+
+  \noindent%
+  \begin{tabular}{|L{\cellwidth{.48\textwidth}}|L{\cellwidth{.52\textwidth}}|}
+    \hline
+
+    \textbf{Дата%
+      \ifdefined\PlaceRu{ и место}\else{ инвойса}\fi%
+    :} \Date%
+      \ifdefined\PlaceRu{, \PlaceRu}\else\fi &
+    \textbf{Дата%
+      \ifdefined\PlaceUa{ та місце}\else{ інвойсу}\fi%
+    :} \Date%
+      \ifdefined\PlaceUa{, \PlaceUa}\else\fi \\ \hline
+
+    \textbf{Исполнитель:} ФЛ---П \FullNameRu,
+    проживающий по адресу: \Zip,
+      \ifdefined\StateRu{\StateRu, }\else\fi%
+      \ifdefined\RegionRu{\RegionRu, }\else\fi%
+    \CityRu, \StreetRu, \BuildingRu%
+      \ifdefined\ApartmentRu, \ApartmentRu\else\fi%
+    \newline
+    ИНН --- \ITN &
+    \textbf{Виконавець:} ФО---П \FullNameUa,
+    що проживає за адресою: \Zip,
+      \ifdefined\StateUa{\StateUa, }\else\fi%
+      \ifdefined\RegionUa{\RegionUa, }\else\fi%
+    \CityUa, \StreetUa, \BuildingUa%
+      \ifdefined\ApartmentUa, \ApartmentUa\else\fi \newline
+    ІПН --- \ITN \\ \hline
+
+    \textbf{Заказчик:} \CustomerName \newline
+    \CustomerAddress \newline
+    в лице \CustomerRepresentativeRuGenitive, действующего на основании Статута &
+    \textbf{Замовник:} \CustomerName \newline
+    \CustomerAddress \newline
+    в особі \CustomerRepresentativeUaGenitive, що діє на підставі Статуту \\ \hline
+
+    \textbf{Предмет:} \MatterRu &
+    \textbf{Предмет:} \MatterUa \\ \hline
+
+    \textbf{Валюта:} \CurrencyRu &
+    \textbf{Валюта:} \CurrencyUa \\ \hline
+
+    \textbf{Цена (общая стоимость) товаров/услуг:} \Price &
+    \textbf{Ціна (загальна вартість) товарів/послуг:} \Price \\ \hline
+
+    \textbf{Условия оплаты и передачи:}\newline \TermsRu &
+    \textbf{Умови оплати та передачі:}\newline \TermsUa \\ \hline
+
+    \textbf{Customer Bank information:} \newline[2pt]
+    \begin{tabular}{@{}L{2.5cm}L{5cm}}
+      Beneficiary: & \CustomerBeneficiary \\
+      Account \# : & \bful{\CustomerAccount} \\
+      Beneficiary’s bank: & \CustomerBank \newline \CustomerBankAddress \\
+      SWIFT code: & \CustomerSWIFT \\
+    \end{tabular} &
+    \textbf{Supplier Bank information:} \newline[2pt]
+    \begin{tabular}{@{}L{2.5cm}L{5.5cm}}
+      Beneficiary: & PE\quad\FullNameEn \\
+      Account \# : & \bful{\SupplierAccount} \\
+      Beneficiary’s bank: & \SupplierBank \newline \SupplierBankAddress \\
+      SWIFT code: & \SupplierSWIFT \\
+    \end{tabular} \newline
+    \bful{Correspondent bank \#1:} \newline
+    \CorrespondentBank \newline
+    \CorrespondentBankAddress \newline
+    Account No.: \CorrespondentAccount \newline
+    SWIFT code: \CorrespondentSWIFT \\ \hline
+  \end{tabular}
+
+  \smallskip
+
+  \noindent%
+  \begin{tabular}{%
+    |L{\cellwidth{.04\textwidth}}%
+    |L{\cellwidth{.34\textwidth}}%
+    |L{\cellwidth{.20\textwidth}}%
+    |L{\cellwidth{.24\textwidth}}%
+    |L{\cellwidth{.18\textwidth}}%
+  |}
+    \hline
+    № &
+    Описание/\newline Опис &
+    Количество/\newline Кількість &
+    Цена, \CurrencyRu\newline Ціна, \CurrencyUa &
+    Общая стоимость, \CurrencyRu\ /\newline Загальна вартість, \CurrencyUa \\ \hline
+
+    1 &
+    \ServiceDescriptionRu/\ServiceDescriptionUa &
+    1 &
+    \Price &
+    \Price \\ \hline
+
+    & & &
+    Всего/Усього: &
+    \Price \\ \hline
+
+    \multicolumn{4}{|l|}{%
+      \noindent%
+      \begin{tabular}{L{3cm}L{10cm}}
+        Всего к оплате/\newline Усього до сплати: &
+        \PriceWordRu \newline \PriceWordUa \\
+      \end{tabular}%
+    } &
+    \Price \\ \hline
+  \end{tabular}
+
+  \setlength{\parskip}{.5\baselineskip}
+
+  Все комиссии банков-корреспондентов оплачивает исполнитель. / Усі комісії банків-кореспондентів сплачує виконавець.
+
+  \ifdefined\AgreementNameRuInstrumental
+    Этим Исполнитель подтверждает, что он заключил соглашение с Заказчиком путём принятия \AgreementNameRuGenitive\ifdefined\AgreementDateRu{ от \AgreementDateRu}\else\fi\ifdefined\AgreementLink{ (\AgreementLink)}\else\fi\ (далее~--- ``\ifdefined\IsPublicOffer{Публичная оферта}\else{Договор}\fi'') / Цим Виконавець підтверджує, що він уклав угоду із Замовником шляхом прийняття \ifdefined\AgreementNameUaGenitive{\AgreementNameUaGenitive}\else{\AgreementNameRuGenitive}\fi\ifdefined\AgreementDateUa{ від \AgreementDateUa}\else\fi\ifdefined\AgreementLink{ (\AgreementLink)}\else\fi\ (далі --- ``\ifdefined\IsPublicOffer{Публічна оферта}\else{Договір}\fi'').
+  \else
+    Этот Инвойс является предложением заключить договор. Оплата по этому Инвойсу является принятием предложения заключить договор на условиях, изложенных в этом Инвойсе. Оплата по этому Инвойсу может быть произведена не позднее \Deadline. / Цей Інвойс є пропозицією укласти договір. Оплата за цим Інвойсом є прийняттям пропозиції укласти договір на умовах, викладених в цьому Інвойсі. Оплата за цим інвойсом може бути здійснена не пізніше \Deadline.
+  \fi
+
+  \ifdefined\AgreementNameRuInstrumental{В соответствии с \ifdefined\IsPublicOffer{Публичной офертой}\else{Договором}\fi, оплата}\else{Оплата}\fi\ согласно этому Инвойсу одновременно является свидетельством выполнения работ и предоставления услуг в полном объёме, их принятия, а также подтверждения конечных расчётов между Сторонами. / \ifdefined\AgreementNameRuInstrumental{Відповідно до \ifdefined\IsPublicOffer{Публічної оферти}\else{Договору}\fi, оплата}\else{Оплата}\fi\ згідно цього Інвойсу одночасно є свідченням виконання робіт та надання послуг в повному обсязі, їх прийняття, а також підтвердженням кінцевих розрахунків між Сторонами.
+
+  Оплата согласно этому Инвойсу является подтверждением того, что Стороны не имеют взаимных претензий и не намерены направлять рекламации.\ifdefined\AgreementNameRuInstrumental{}\else{ Договор не предусматривает штрафных санкций.}\fi\ / Оплата згідно цього Інвойсу є підтвердженням того, що Сторони не мають взаємних претензій та не мають наміру направляти рекламації.\ifdefined\AgreementNameRuInstrumental{}\else{ Договір не передбачає штрафних санкцій.}\fi
+
+  Стороны освобождаются от ответственности за невыполнение или ненадлежащее выполнение обязательств по договору на время действия форс-мажорных обстоятельств. / Сторони звільняються від відповідальності за не\-ви\-ко\-нан\-ня чи неналежне ви\-ко\-нан\-ня зобов’язань за договором на час дії форс-мажорних обставин.
+
+  Все споры, возникнувшие между Сторонами по договору, будут рассматриваться компетентным судом по местонахождению ответчика. / Всі спори, що виникнуть між Сторонами по договору будуть розглядатись компетентним судом за місцезнаходження відповідача.
+
+  Исполнитель/Виконавець: \hspace{1cm} \rule{4cm}{.3pt} \hspace{1cm} (\ShortNameRu\ / \ShortNameUa)
+}
+
+% defaults
+\def\MatterRu{\TplDevRu}
+\def\MatterUa{\TplDevUa}
+\def\TermsRu{\TplFullPostpaymentRu}
+\def\TermsUa{\TplFullPostpaymentUa}
+\def\CurrencyRu{\TplUSDRu}
+\def\CurrencyUa{\TplUSDUa}
+\def\ServiceDescriptionRu{\TplDevRu}
+\def\ServiceDescriptionUa{\TplDevUa}
+
+\makeatother
